@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 
 import ru.yandex.practicum.contacts.databinding.ItemFilterBinding;
 import ru.yandex.practicum.contacts.model.ContactType;
+import ru.yandex.practicum.contacts.presentation.base.BaseListDiffCallback;
 import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactType;
 import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUi;
 import ru.yandex.practicum.contacts.utils.model.ContactTypeUtils;
@@ -26,7 +27,7 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
 
     private final AsyncListDiffer<FilterContactTypeUi> differ = new AsyncListDiffer<>(
             new AdapterListUpdateCallback(this),
-            new AsyncDifferConfig.Builder<>(new ListDiffCallback()).build()
+            new AsyncDifferConfig.Builder<>(new BaseListDiffCallback<FilterContactTypeUi>()).build()
     );
 
     private final Consumer<FilterContactTypeUi> clickListener;
@@ -75,7 +76,7 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
             final int sortResId = FilterContactTypeUtils.getStringRes(data.getContactType());
             binding.text.setText(sortResId);
             binding.selected.setChecked(data.isSelected());
-            if (data.getContactType() == FilterContactType.ALL){
+            if (data.getContactType() == FilterContactType.ALL) {
                 binding.logo.setVisibility(View.GONE);
             } else {
                 final ContactType contactType = FilterContactTypeUtils.toContactType(data.getContactType());
@@ -85,7 +86,9 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
             }
         }
     }
-
+}
+//    Класс ListDiffCallback больше не нужен
+/*
     static class ListDiffCallback extends DiffUtil.ItemCallback<FilterContactTypeUi> {
 
         @Override
@@ -104,4 +107,4 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
             return newItem;
         }
     }
-}
+*/
